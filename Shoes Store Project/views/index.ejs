@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CURD Operation</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url("https://www.shutterstock.com/image-photo/old-brick-black-color-wall-260nw-1605128917.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <section class="add">
+        <form action="/add" method="POST">
+            <label for="name">Brand Name</label>
+            <input type="text" id="name" name="name" placeholder="ShoesName">
+            <label for="image">Shoes Image</label>
+            <input type="text" id="image" name="image" placeholder="Image-URL">
+            <label for="price">Shoes Price</label>
+            <input type="number" id="price" name="price" placeholder="ShoesPrice">
+            <input type="submit">
+        </form>
+    </section>
+    <br>
+    <br>
+    <hr>
+    <section class="show">
+        <table class="table">
+            <tr>
+                <th style="color: white;">Brand Name</th>
+                <th style="color: white;">Shoes Image</th>
+                <th style="color: white;">Shoes Price</th>
+            </tr>
+            <% products.forEach(function(product){ %>
+                <tr>
+                    <td><h4 style="color: white;"><%= product.name %></h4></td>
+                    <td><img src="<%= product.image %>" alt="" style="width: 100px;height: 100px;"></td>
+                    <td><h5 style="color: white;"><%= product.price %></h5></td>
+                    <td><a class="btn btn-warning" href="/<%= product._id %>/edit">EDIT</a></td>
+                    <td>
+                        <form action="/<%= product._id %>/?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </table>
+        
+        <% if (pages > 1) { %>
+            <ul class="pagination">
+                <% if (page > 1) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="/?page=<%= page - 1 %>">&laquo;</a>
+                    </li>
+                <% } %>
+                <% for (let i = 1; i <= pages; i++) { %>
+                    <li class="page-item <% if (i === page) { %>active<% } %>">
+                        <a class="page-link" href="/?page=<%= i %>"><%= i %></a>
+                    </li>
+                <% } %>
+                <% if (page < pages) { %>
+                    <li class="page-item">
+                        <a class="page-link" href="/?page=<%= page + 1 %>">&raquo;</a>
+                    </li>
+                <% } %>
+            </ul>
+        <% } %>
+    </section>
+</body>
+</html>
